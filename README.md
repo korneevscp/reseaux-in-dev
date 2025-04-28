@@ -88,23 +88,66 @@ Inspirée des meilleures fonctionnalités de Facebook, Instagram et Messenger, t
 
 ```
 korneevscp_web/
-├── api/
-├── assets/
-├── css/
-├── includes/
-├── js/
-├── lang/
-├── uploads/
-├── home.php
-├── profile.php
-├── login.php
-├── register.php
-├── logout.php
-├── installer.php
-├── mydb.sql
-├── README.md
-├── INSTALL.md
-└── .htaccess
+│
+├── api/                <-- tout ce qui est appels AJAX/API REST
+│
+├── assets/             <-- images, sons, icônes, vidéos
+│   ├── images/
+│   ├── sounds/
+│   ├── uploads/
+│   └── icons/
+│
+├── css/                <-- tes fichiers de style
+│   ├── main.css
+│   ├── darkmode.css
+│   └── animations.css
+│
+├── js/                 <-- tes scripts JavaScript
+│   ├── script.js
+│   ├── chat.js
+│   ├── call.js (WebRTC)
+│   └── stories.js
+│
+├── includes/           <-- toutes les fonctions et connexions serveur
+│   ├── db.php
+│   ├── functions.php
+│   ├── auth.php
+│   └── notifications.php
+│
+├── languages/          <-- le fichier multilingue
+│   ├── lang.php
+│   ├── en.php
+│   ├── fr.php
+│   ├── es.php
+│   └── (et 20 langues)
+│
+├── uploads/            <-- stockage temporaire des fichiers uploadés
+│
+├── installer.php       <-- installe le site + base SQL + compte admin
+│
+├── mydb.sql            <-- base de données complète à importer
+│
+├── .htaccess           <-- sécuriser les accès (Apache)
+│
+├── index.php           <-- page d'accueil / flux de posts
+├── login.php           <-- page connexion
+├── register.php        <-- page inscription
+├── profile.php         <-- profil utilisateur
+├── settings.php        <-- réglages (photo profil, statut)
+├── home.php            <-- page principale après connexion
+├── logout.php          <-- déconnexion
+├── search.php          <-- recherche d'amis / utilisateurs
+├── story.php           <-- voir une story
+├── create_story.php    <-- publier une story
+├── messages.php        <-- page de chat
+├── call.php            <-- appel vocal (WebRTC)
+├── notifications.php   <-- voir ses notifications
+├── admin_panel.php     <-- accès administrateur
+├── friends.php         <-- gestion des demandes d'amis
+├── blocked.php         <-- liste de personnes bloquées
+│
+└── README.md           <-- fichier expliquant l'installation
+
 ```
 
 ---
