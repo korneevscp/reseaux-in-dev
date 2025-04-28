@@ -1,51 +1,5 @@
-korneevscp_web_final/
-├── assets/
-│   ├── css/
-│   │   ├── style.css
-│   │   └── darkmode.css
-│   ├── js/
-│   │   ├── script.js
-│   │   ├── chat.js
-│   │   └── webrtc.js
-│   ├── images/
-│   │   └── (icônes, logos, photos...)
-├── uploads/
-│   └── (posts, stories, profils utilisateurs)
-├── lang/
-│   ├── en.php
-│   ├── fr.php
-│   └── etc... (20 fichiers de langue)
-├── includes/
-│   ├── db.php
-│   ├── fonctions.php
-│   ├── auth.php
-│   ├── notifications.php
-│   ├── chat_engine.php
-│   ├── call_engine.php
-├── admin/
-│   ├── dashboard.php
-│   ├── manage_users.php
-├── installer.php
-├── index.php
-├── login.php
-├── register.php
-├── home.php
-├── profile.php
-├── story.php
-├── logout.php
-├── post.php
-├── messages.php
-├── settings.php
-├── friends.php
-├── notifications.php
-├── terms.php
-├── privacy.php
-├── mydb.sql
-└── README.txt (guide rapide)
 
-
-
-Fonctionnalité	a faire 
+# Fonctionnalité	a faire 
 Design sobre gris foncé	
 Multi-langues (20 langues) avec lang.php	
 Sélecteur de langue dans la navbar	
