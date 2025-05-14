@@ -86,6 +86,19 @@ $posts = $pdo->query("SELECT posts.*, users.email, users.avatar FROM posts JOIN 
             <hr>
         <?php endforeach; ?>
     </div>
+    <script>
+        
+        let refreshAllowed = true;
+        document.querySelectorAll('textarea, input[type="text"]').forEach(el => {
+            el.addEventListener('focus', () => refreshAllowed = false);
+            el.addEventListener('blur', () => refreshAllowed = true);
+        });
+
+        setInterval(() => {
+        if (refreshAllowed) window.location.reload();
+        }, 5000);
+    </script>
+   
 
     <script src="assets/ajax_notifications.js"></script> <!-- Si tu utilises AJAX pour notifications -->
 </body>
