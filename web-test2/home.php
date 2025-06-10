@@ -7,39 +7,24 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$limit = 10;
-$offset = 0; // ou basé sur $_GET['page']
-$stmt = $pdo->prepare("
-    SELECT posts.*, users.avatar 
-    FROM posts 
-    JOIN users ON posts.user_id = users.id 
+$stmt = $pdo->query("
+    SELECT posts.id, posts.content, posts.title, posts.created_at, posts.file, users2.pseudo, users2.avatar
+    FROM posts
+    JOIN users2 ON posts.user_id = users2.id
     ORDER BY posts.created_at DESC
-    LIMIT ? OFFSET ?
 ");
-$stmt->bindValue(1, $limit, PDO::PARAM_INT);
-$stmt->bindValue(2, $offset, PDO::PARAM_INT);
-$stmt->execute();
-$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$user_id = $_SESSION['user_id'];
-foreach ($posts as $post): ?>
-  <div class="post">
-    <img src="<?= htmlspecialchars($post['avatar']) ?>" alt="Avatar" width="40">
-    <h3><?= htmlspecialchars($post['title']) ?></h3>
-    <p><?= nl2br(htmlspecialchars($post['content'])) ?></p>
-    <small>Publié le <?= htmlspecialchars($post['created_at']) ?></small>
-  </div>
-<?php endforeach; ?>
 
+$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Accueil</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body class="dark-theme">
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-container">
             <a href="home.php">Fil</a>
@@ -51,26 +36,56 @@ foreach ($posts as $post): ?>
         </div>
     </nav>
 
-    <!-- Contenu principal -->
     <div class="container">
         <h1>Fil d’actualité</h1>
 
-        <!-- Formulaire de publication -->
-        <form action="post.php" method="POST">
+        <form action="post.php" method="POST" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Titre du post" required />
             <textarea name="content" placeholder="Exprimez-vous..." required></textarea>
+            <input type="file" name="file" accept=".jpg,.jpeg,.png,.gif,.mp4,.mp3,.pdf" />
             <button type="submit">Publier</button>
         </form>
 
-  <?php
-    foreach ($posts as $post):?>
-        <div class="post">
-            <strong><?= htmlspecialchars($post['email']) ?></strong><br>
-            <img src="avatars/<?= htmlspecialchars($post['avatar']) ?>" width="40" alt="Avatar"><br>
-            <p><?= nl2br(htmlspecialchars($post['content'])) ?></p>
-            <small><?= htmlspecialchars($post['created_at']) ?></small>
-        </div>
-<?php   endforeach; ?>
+        <?php foreach ($posts as $post): ?>
+            <div class="post">
+                <h3><?= htmlspecialchars($post['title']) ?></h3>
+                <strong><?= htmlspecialchars($post['pseudo']) ?></strong><br />
+                <img src="uploads/<?= htmlspecialchars($post['avatar']) ?>" width="40" alt="Avatar" />
+                <p><?= nl2br(htmlspecialchars($post['content'])) ?></p>
 
+                <?php if ($post['file']): 
+                    $ext = strtolower(pathinfo($post['file'], PATHINFO_EXTENSION));
+                    $filePath = "uploads/" . htmlspecialchars($post['file']);
+                ?>
+                    <?php if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])): ?>
+                        <img src="<?= $filePath ?>" alt="Image jointe" style="max-width: 300px; max-height: 300px;" />
+                    <?php elseif (in_array($ext, ['mp4'])): ?>
+                        <video controls width="300">
+                            <source src="<?= $filePath ?>" type="video/mp4" />
+                            Votre navigateur ne supporte pas la vidéo.
+                        </video>
+                    <?php elseif (in_array($ext, ['mp3'])): ?>
+                        <audio controls>
+                            <source src="<?= $filePath ?>" type="audio/mpeg" />
+                            Votre navigateur ne supporte pas l'audio.
+                        </audio>
+                    <?php elseif ($ext === 'pdf'): ?>
+                        <a href="<?= $filePath ?>" target="_blank">Voir le fichier PDF</a>
+                    <?php else: ?>
+                        <a href="<?= $filePath ?>" target="_blank">Télécharger le fichier</a>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                <small>Publié le <?= htmlspecialchars($post['created_at']) ?></small>
+            </div>
+        <?php endforeach; ?>
+
+        <div class="pagination">
+            <!-- Pagination logic here -->
+            <a href="?page=1">1</a>
+            <a href="?page=2">2</a>
+            <a href="?page=3">3</a>
+        </div>
     </div>
 </body>
 </html>

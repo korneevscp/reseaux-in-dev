@@ -2,7 +2,6 @@
 session_start();
 require_once 'includes/db.php';
 
-// Vérifie que l'utilisateur est connecté et que le contenu et le titre sont fournis
 if (!isset($_SESSION['user_id']) || empty($_POST['content']) || empty($_POST['title'])) {
     header("Location: home.php");
     exit();
@@ -12,17 +11,25 @@ $user_id = $_SESSION['user_id'];
 $content = htmlspecialchars($_POST['content']);
 $title = htmlspecialchars($_POST['title']);
 
-// Vérifie que l'utilisateur existe dans la base de données
-$check = $pdo->prepare("SELECT id FROM users2 WHERE id = ?");
-$check->execute([$user_id]);
+// Gestion du fichier uploadé
+$fileName = null;
+if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mp3', 'pdf'];
+    $fileTmpPath = $_FILES['file']['tmp_name'];
+    $originalName = $_FILES['file']['name'];
+    $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
 
-if ($check->rowCount() === 0) {
-    die("Erreur : l'utilisateur avec l'ID $user_id n'existe pas dans la base de données.");
+    if (in_array($extension, $allowed)) {
+        $newFileName = uniqid() . '.' . $extension;
+        $destination = __DIR__ . '/uploads/' . $newFileName;
+        if (move_uploaded_file($fileTmpPath, $destination)) {
+            $fileName = $newFileName;
+        }
+    }
 }
 
-// Insertion du post
-$stmt = $pdo->prepare("INSERT INTO posts (user_id, content, title) VALUES (?, ?, ?)");
-$stmt->execute([$user_id, $content, $title]);
+$stmt = $pdo->prepare("INSERT INTO posts (user_id, content, title, file) VALUES (?, ?, ?, ?)");
+$stmt->execute([$user_id, $content, $title, $fileName]);
 
 header("Location: home.php");
 exit();
