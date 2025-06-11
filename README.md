@@ -39,15 +39,15 @@ Voir qui a vu un post/story ("Vu par 4 personnes")
 
 Edition/Suppression posts et commentaires	
 
-Nom du site : ...	
+Nom du site : NEXORA	
 
 
 
 
 
-# site web
+# NEXORA
 
-**site web** est une plateforme sociale complète, sobre, sécurisée et conforme RGPD 🇫🇷.  
+Nexora est une plateforme sociale complète, sobre, sécurisée et conforme RGPD 🇫🇷.  
 Inspirée des meilleures fonctionnalités de Facebook, Instagram et Messenger, tout en restant légère et élégante.
 
 ---
